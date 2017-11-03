@@ -1,0 +1,234 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/31/0031
+ * Time: 20:26
+ */
+namespace app\admin\controller;
+use app\validate\IdMustPositive;
+use app\validate\VersionVailate;
+use app\admin\model\Version as VersionModel;
+use think\Request;
+
+class Version extends Base
+{
+    public function index(Request $request)
+    {
+        $data=$request->except('/admin/version/index_html');
+//       $list=\app\admin\model\News::getNewsPage($pagesize);
+//       将传递过来的数组参数变成url后面的参数形式
+//        用于laypage
+        $url=http_build_query($data);
+
+        $this->setPageAndSize($data);
+        $whereData=[];
+        $whereData['status']=[
+            'neq',config('admin.status_delete')
+        ];
+        if(!empty($data['app_type']))
+        {
+            $whereData['app_type']=[
+                'eq',$data['app_type']
+            ];
+        }
+        if(!empty($data['start_time'])&&!empty($data['end_time']))
+        {
+            $start_time=strtotime($data['start_time']);
+            $end_time=strtotime($data['end_time']);
+            if($start_time<$end_time)
+            {
+                $whereData['create_time']=[
+                    ['gt',$start_time],
+                    ['lt',$end_time]
+                ];
+            }
+        }
+        elseif (!empty($data['start_time']))
+        {
+            $whereData['create_time']=[
+                'gt',strtotime($data['start_time'])
+            ];
+        }
+        elseif(!empty($data['end_time']))
+        {
+            $whereData['create_time']=[
+                'lt',strtotime($data['end_time'])
+            ];
+        }
+
+        $list=VersionModel::getNewsByCondition($whereData,$this->from,$this->pageSize);
+        $totalCount=VersionModel::getNewsByConditionCount($whereData);
+        $pageTotal=ceil($totalCount/$this->pageSize);
+        return $this->fetch('',[
+            'list'=>$list,
+            'total'=>$pageTotal,
+            'curr'=>$this->page,
+            'app_type'=>config('setting.app_type'),
+            'url'=>$url,
+            'app_type_select'=>empty($data['app_type'])?"":$data['app_type'],
+            'start_time'=>empty($data['start_time'])?'':$data['start_time'],
+            'end_time'=>empty($data['end_time'])?'':$data['end_time'],
+            'title'=>empty($data['title'])?'':$data['title']
+        ]);
+    }
+    public function add(Request $request)
+    {
+        if ($request->isPost())
+        {
+            $data=$request->post();
+            $newVailate=new VersionVailate();
+            if($newVailate->check($data))
+            {
+                if(!in_array($data['app_type'],config('setting.app_type')))
+                {
+                    $res=[
+                        'code'=>0,
+                        'message'=>'平台类型错误',
+                    ];
+                }
+                else
+                {
+                    try
+                    {
+                        if(VersionModel::create($data))
+                        {
+                            $res=[
+                                'code'=>1,
+                                'message'=>'添加成功...',
+                                'jump_url'=>url('version/index')
+                            ];
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    catch (\Exception $e)
+                    {
+                        $res=[
+                            'code'=>0,
+                            'message'=>'添加失败...',
+                        ];
+                    }
+                }
+
+            }
+            else
+            {
+                $res=[
+                    'code'=>0,
+                    'message'=>$newVailate->getError(),
+                ];
+            }
+            return json($res);
+        }
+        else
+        {
+            return $this->fetch('',['app_type'=>config('setting.app_type')]);
+        }
+
+    }
+    public function edit(Request $request)
+    {
+        if($request->isGet())
+        {
+            $data=$request->param();
+            $vailate=new IdMustPositive();
+            if(!$vailate->check($data))
+            {
+                $this->error($vailate->getError());
+                exit();
+            }
+            $whereData=[];
+            $whereData['id']=[
+                'eq',$data['id']
+            ];
+            $whereData['status']=[
+                'neq',config('admin.status_delete')
+            ];
+            $version=VersionModel::where($whereData)->find();
+
+            if(!$version)
+            {
+                $this->error("该记录不存在...");
+            }
+
+            return $this->fetch('',[
+           'app_type'=>config('setting.app_type'),
+           'version'=>$version
+            ]);
+
+        }
+        else if ($request->isPost())
+        {
+            $data=$request->except(['/admin/version/edit_html']);
+            $vailate=new IdMustPositive();
+            $result=[];
+            if(!$vailate->check($data))
+            {
+                $result=[
+                    'code'=>0,
+                    'message'=>$vailate->getError()
+                ];
+                return $result;
+            }
+            if(!in_array($data['app_type'],config('setting.app_type')))
+            {
+                $result=[
+                    'code'=>0,
+                    'message'=>'平台类型错误',
+                ];
+                return $result;
+            }
+            $whereData['id']=[
+                'eq',$data['id']
+            ];
+            $whereData['status']=[
+                'neq',config('admin.status_delete')
+            ];
+
+            $version=VersionModel::where($whereData)->find();
+            if(!$version)
+            {
+                $result=[
+                    'code'=>0,
+                    'message'=>'该记录不存在...'
+                ];
+                return $result;
+            }
+
+            $versionVailate=new VersionVailate();
+            if(!$versionVailate->check($data))
+            {
+                $result=[
+                    'code'=>0,
+                    'message'=>$versionVailate->getError()
+                ];
+                return $result;
+            }
+
+            $data['update_time']=time();
+            $data['is_force']=empty($data['is_force'])?0:1;
+            try{
+                if(VersionModel::update($data)!==false)
+                {
+                    $result=[
+                        'code'=>1,
+                        'message'=>'更新成功...',
+                        'jump_url'=>url('version/index')
+                    ];
+                }
+            }catch (\Exception $e)
+            {
+                $result=[
+                    'code'=>0,
+                    'message'=>$e->getMessage()
+                ];
+            }
+            return json($result);
+        }
+
+
+    }
+}

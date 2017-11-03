@@ -1,0 +1,27 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/25/0025
+ * Time: 14:43
+ */
+namespace app\validate;
+class NewsVailate extends BaseVailate
+{
+    protected $rule=[
+        'title|文章标题'=>'require|max:100',
+        'small_title|简略标题'=>'max:20',
+        'catid'=>'require|IdMustPositive',
+        'description|文章摘要'=>'max:200',
+        'is_position'=>'in:0,1',
+        'is_head_figure'=>'in:0,1',
+        'is_allowcomments'=>'in:0,1',
+    ];
+    protected $message=[
+        'catid.require'=>"文章分类必须选择",
+        'catid.IdMustPositive'=>'文章分类不正确',
+        'is_position.in'=>'是否推荐状态不正确',
+        'is_head_figure.in'=>'是否推荐到首页头图状态不正确',
+        'is_allowcomments.in'=>'是否允许评论状态不正确',
+    ];
+}

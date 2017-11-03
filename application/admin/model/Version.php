@@ -1,0 +1,48 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/31/0031
+ * Time: 19:28
+ */
+namespace app\admin\model;
+use think\Model;
+
+class Version extends Model
+{
+    protected $insert = ['status' => 1];
+    protected $autoWriteTimestamp = true;
+    public static function getLastVersionByAppType($apptype='')
+    {
+           $where=[
+               'status'=>1,
+               'app_type'=>$apptype
+           ];
+           $order=[
+               'id'=>'desc'
+           ];
+           return self::where($where)->order($order)->limit(1)->find();
+
+    }
+    /**
+     * 原生分页写法
+     * @param array $param
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public static function getNewsByCondition($where=[],$nowNuber=0,$size=5)
+    {
+        $order=['id'=>'desc','create_time'=>'desc'];
+        return self::where($where)->limit($nowNuber,$size)->order($order)->select();
+    }
+
+    /**
+     * 获取分页条数总数
+     * @param array $param
+     * @return int|string
+     */
+    public static function getNewsByConditionCount($where=[])
+    {
+        return self::where($where)->count();
+    }
+
+}

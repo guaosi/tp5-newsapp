@@ -1,0 +1,152 @@
+<!--header-->
+
+{include file="public/_meta" /}
+<article class="page-container">
+  <form class="form form-horizontal" id="form-singwaapp" url="{:url('news/edit')}">
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
+      <div class="formControls col-xs-8 col-sm-9">
+        <input type="text" class="input-text" value="{$news.title}" placeholder="" id="title" name="title">
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">简略标题：</label>
+      <div class="formControls col-xs-8 col-sm-9">
+        <input type="text" class="input-text" value="{$news.small_title}" placeholder="" id="samll_title" name="small_title">
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+      <div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select name="catid" class="select">
+                 {volist name="cats" id="vo"}
+                  <option value="{$key}" {if condition="$news.catid eq $key"}selected="selected"{/if}>{$vo}</option>
+                  {/volist}
+                </select>
+				</span> </div>
+    </div>
+
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
+      <div class="formControls col-xs-8 col-sm-9">
+        <textarea name="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" >{$news.description}</textarea>
+        <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+      </div>
+    </div>
+
+
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">允许评论：</label>
+      <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+        <div class="check-box">
+          <input type="checkbox" id="is_allowcomments" name="is_allowcomments" value="1" {if condition="$news.is_allowcomments eq 1"}checked="checked"{/if}>
+          <label for="checkbox-pinglun">&nbsp;</label>
+        </div>
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">是否推荐到首页头图：</label>
+      <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+        <div class="check-box">
+          <input type="checkbox" id="is_head_figure" name="is_head_figure" value="1" {if condition="$news.is_head_figure eq 1"}checked="checked"{/if}>
+          <label for="checkbox-pinglun">&nbsp;</label>
+        </div>
+      </div>
+    </div>
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">是否推荐：</label>
+      <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+        <div class="check-box">
+          <input type="checkbox" id="is_position" name="is_position" value="1" {if condition="$news.is_position eq 1"}checked="checked"{/if}>
+          <label for="checkbox-pinglun">&nbsp;</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">缩略图：</label>
+      <div class="formControls col-xs-8 col-sm-9">
+        <input id="file_upload"  type="file" multiple="true" >
+        <img style="{if condition='empty($news.image)'}display: none{/if}" id="upload_org_code_img" src="{if condition='!empty($news.image)'}{$news.image}{/if}" width="150" height="150">
+        <input id="file_upload_image" name="image" type="hidden" multiple="true" value="{if condition='!empty($news.image)'}{$news.image}{/if}">
+        <input name="id" type="hidden" value="{$news.id}">
+      </div>
+    </div>
+
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
+      <div class="formControls col-xs-8 col-sm-9">
+        <script id="editor" type="text/plain" name="content" style="width:100%;height:400px;">{$news.content}</script>
+      </div>
+    </div>
+    <div class="row cl">
+      <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+        <button  class="btn btn-secondary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+        <button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+      </div>
+    </div>
+  </form>
+</article>
+
+<!--header-->
+{include file="public/_footer" /}
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+    var imageSwf='__STATIC__/uploadify/uploadify.swf';
+    var imageUploader="{:url('news/upload')}";
+</script>
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+ <script type="text/javascript" src="__STATIC__/admin/js/formSubmit.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/js/image.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__STATIC__/hadmin/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $('.skin-minimal input').iCheck({
+      checkboxClass: 'icheckbox-blue',
+      radioClass: 'iradio-blue',
+      increaseArea: '20%'
+    });
+
+    //表单验证
+    $("#form-singwaapp").validate({
+      rules:{
+        title:{
+          required:true,
+        },
+        small_title:{
+          required:true,
+        },
+        catid:{
+          required:true,
+        },
+        sources_type:{
+          required:true,
+        },
+        is_allowcomments:{
+          required:true,
+        },
+
+      },
+      onkeyup:false,
+      focusCleanup:true,
+      success:"valid",
+      submitHandler:function(form){
+        guaosi_save(form);// 需要小伙伴自定义一个guaosi_save方法 用来处理抛送请求的哦
+      }
+    });
+
+    var ue = UE.getEditor('editor');
+
+  });
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+
+</body>
+</html>
