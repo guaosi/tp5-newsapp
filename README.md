@@ -4,7 +4,7 @@
 
 接口文档地址：[**接口文档**](http://newsapp.mydoc.io/)
 
-安卓体验包与安卓源码下载地址: [**百度云**](http://https://pan.baidu.com/s/1jHWIHOq)
+安卓体验包与安卓源码下载地址: [**百度云**](https://pan.baidu.com/s/1jHWIHOq)
 
 
 > 声明:APP不是我制作的，我只是写接口
