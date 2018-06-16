@@ -1,0 +1,126 @@
+10
+
+dir
+2
+svn://118.89.20.47:3690/newsapp.guaosi.com.cn/vendor/phpspec/prophecy/src/Prophecy
+svn://118.89.20.47:3690
+
+
+
+2017-12-15T07:51:33.902232Z
+1
+root
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+05e21276-f5ee-45a1-9439-117ec18ac556
+
+Prediction
+dir
+
+Argument
+dir
+
+Comparator
+dir
+
+PhpDocumentor
+dir
+
+Prophet.php
+file
+
+
+
+
+2017-12-15T08:01:56.000000Z
+f76fca6cd9f03d5fb864d0524c2dc871
+2017-12-15T07:51:33.902232Z
+1
+root
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3865
+
+Argument.php
+file
+
+
+
+
+2017-12-15T08:01:56.000000Z
+20eb0599f9a830e7bbc5a59c8d8adbeb
+2017-12-15T07:51:33.902232Z
+1
+root
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4807
+
+Prophecy
+dir
+
+Call
+dir
+
+Doubler
+dir
+
+Util
+dir
+
+Exception
+dir
+
+Promise
+dir
+
