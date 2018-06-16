@@ -31,6 +31,10 @@
 | nginx |用于网址代理解析|
 | 集成环境[可选的] | LNMP`>=1.5` |
 
+## 注意
+
+1. 做了一次网站迁移上传的,应该没有什么问题,有关问题下面会说明.
+
 ## 安装
 
 通过[Github](https://github.com/guaosi/tp5-newsapp),fork到自己的项目下
@@ -64,7 +68,7 @@ git clone git@github.com:<你的用户名>/tp5-newsapp.git
 
 >  在极光推送官网中，推送设置的Android的应用包名设置为com.wiggins.teaching
 
->  将app/src/main/java/com.wiggins.teaching/network/constant/HttpUrlConstant 里的 BASE_URL改为自己的网址，如 http://www.guaosi.com.cn
+>  将app/src/main/java/com.wiggins.teaching/network/constant/HttpUrlConstant 里的 BASE_URL改为自己的网址，如 http://www.guaosi.com
 
 >  将app/build.gradle 里的JPUSH_APPKEY 修改为极光推送的AppKey，JPUSH_CHANNEL修改为极光推送里创建的应用名称
 
