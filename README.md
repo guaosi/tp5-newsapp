@@ -38,6 +38,10 @@
 git clone git@github.com:<你的用户名>/tp5-newsapp.git
 ```
 
+## 数据库
+
+> 创建newsapp数据库，自行导入`newsapp.sql`文件
+
 ## 配置
 
 ### PHP端
