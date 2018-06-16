@@ -1,0 +1,11 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/14/0014
+ * Time: 16:00
+ */
+return [
+   'session_user'=>'adminuser',
+    'session_scope'=>'newsapp'
+];

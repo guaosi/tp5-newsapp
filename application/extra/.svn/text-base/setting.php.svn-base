@@ -1,0 +1,16 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/7/31/0031
+ * Time: 23:15
+ */
+return[
+  'PASS_SALT'=>'_guaosi_app',  //密码加密加盐
+    'aeskey'=>'guaosiq624249423',  //aes秘钥，服务端和客户端必须保持一致 必须是16位
+    'app_type'=>[
+        'ios','android','android pad','ipad'
+    ],
+    'app_sign_time'=>10, //sign验证的失效时间
+    'app_sign_cache_time'=>20, //sign的缓存失效时间 用于唯一性验证
+];

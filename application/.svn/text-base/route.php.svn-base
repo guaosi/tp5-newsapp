@@ -1,0 +1,48 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: liu21st <liu21st@gmail.com>
+// +----------------------------------------------------------------------
+use think\Route;
+
+//用于获取时间
+Route::get('time','api/time/getTime');
+//Route::get('api/cat','api/cat/read');
+//用于获取所有分类
+Route::get('api/:ver/cat','api/:ver.cat/read');
+//用于获取首页信息
+Route::get('api/:ver/index','api/:ver.index/index');
+//用于获取新闻信息
+Route::resource('api/:ver/news','api/:ver.news');
+//用于获取新闻排行榜
+Route::get('api/:ver/rank','api/:ver.rank/index');
+//用于初始化，升级提示
+Route::get('api/:ver/init','api/:ver.index/init');
+//用于发送验证码
+Route::post('api/:ver/identify','api/:ver.identify/save');
+//用于登陆
+Route::post('api/:ver/login','api/:ver.login/save');
+//获取用户信息
+Route::get('api/:ver/user','api/:ver.user/read');
+//修改个人信息
+Route::put('api/:ver/user','api/:ver.user/update');
+//上传头像
+Route::post('api/:ver/image','api/:ver.image/save');
+//点赞
+Route::post('api/:ver/upvote','api/:ver.upvote/save');
+//取消赞
+Route::delete('api/:ver/upvote','api/:ver.upvote/delete');
+//查询用户是否对这篇文章赞
+Route::get('api/:ver/upvote/:id','api/:ver.upvote/read');
+//用户评论
+Route::post('api/:ver/comment','api/:ver.comment/save');
+//某篇文章的评论数
+Route::get('api/:ver/commentcount/:id','api/:ver.comment/getCount');
+//某篇文章的评论(分页)
+Route::get('api/:ver/comment/:id','api/:ver.comment/read');
+

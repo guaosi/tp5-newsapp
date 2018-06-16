@@ -1,0 +1,21 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/11/2/0002
+ * Time: 17:17
+ */
+namespace app\api\controller\v1;
+use app\common\lib\Upload;
+
+class Image extends AuthBase
+{
+    public function save()
+    {
+        $image=Upload::UploadByQiniu();
+        if($image)
+        {
+            return showJson(config('admin.app_success'),'ok',config('qiniu.imgageUrl').'/'.$image,201);
+        }
+    }
+}

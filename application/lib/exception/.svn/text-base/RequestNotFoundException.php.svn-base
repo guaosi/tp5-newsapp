@@ -1,0 +1,15 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/30/0030
+ * Time: 16:16
+ */
+namespace app\lib\exception;
+class RequestNotFoundException extends BaseException
+{
+    public $code=404;
+    public $msg="没有找到对应资源";
+    public $status=0;
+    public $data=[];
+}

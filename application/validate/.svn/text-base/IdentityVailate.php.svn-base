@@ -1,0 +1,18 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/11/1/0001
+ * Time: 17:31
+ */
+namespace app\validate;
+class IdentityVailate extends BaseVailate
+{
+    protected $rule=[
+        'id'=>'require|isMobile',
+    ];
+    protected $message=[
+        'id.require'=>'手机号必须填写',
+        'id.isMobile'=>'手机号格式不正确',
+    ];
+}

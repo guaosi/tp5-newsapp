@@ -1,0 +1,13 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/15/0015
+ * Time: 17:27
+ */
+return [
+    'accessKey'=>'rpwosvF-hkYhaZ7M57vNenfLuXHlexEZOXBa8y9Q',
+    'secretKey'=>'adVq88rFPG4NZkaMWOOVhelzb_rXsKz4CHyKpfXO',
+    'bucket'=>'newsapp',
+    'imgageUrl'=>'http://newsappp.guaosi.com.cn'
+];

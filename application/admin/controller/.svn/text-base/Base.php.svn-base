@@ -1,0 +1,170 @@
+<?php
+/**
+ * Create By guaosi
+ * Author guaosi
+ * Date: 2017/10/14/0014
+ * Time: 16:47
+ */
+namespace app\admin\controller;
+use app\validate\IdMustPositive;
+use think\Controller;
+use think\Exception;
+use think\Request;
+
+class Base extends Controller
+{
+    protected $page='';
+    protected $pageSize='';
+    protected $from='';
+    protected $controName='';
+    public function _initialize()
+    {
+      if(!$this->checkLogin())
+      {
+          $this->redirect('login/index');
+      }
+    }
+    protected function checkLogin()
+    {
+        $session=session(config('code.session_user'),'',config('code.session_scope'));
+        return $session?true:false;
+    }
+
+    /**
+     * 将分页大小及页数进行赋值
+     */
+    public function setPageAndSize($data)
+    {
+//        $pagesize=5;
+        $this->page=empty($data['page'])?1:$data['page'];
+        $this->pageSize=empty($data['size'])?config('paginate.list_rows'):$data['size'];
+        $this->from=($this->page-1)*$this->pageSize;
+    }
+
+    /**
+     * 通用化删除
+     * @return \think\response\Json
+     */
+    public function toDelete()
+    {
+        $request=Request::instance();
+        if($request->isAjax())
+        {
+            $data=$request->param();
+            $vailate=new IdMustPositive();
+            if(!$vailate->check($data))
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>$vailate->getError(),
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+            $controName=empty($this->controName)?$request->controller():$this->controName;
+            $obj=model($controName)
+                ->where('id','=',$data['id'])
+                ->where('status','neq',config('admin.status_delete'))
+                ->find();
+            if(empty($obj))
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>'该记录不存在',
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+            $status=$obj->status;
+            $obj->status=-1;
+            try{
+               if(($obj->save())!==false)
+               {
+                   $result=[
+                       'code'=>400,
+                       'msg'=>'删除成功',
+                       'errorCode'=>1,
+                       'jump_url'=>$_SERVER['HTTP_REFERER'],
+                       'ori_status'=>$status
+                   ];
+                   return json($result);
+               }
+                throw new Exception('删除失败...');
+            }catch (\Exception $e)
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>$e->getMessage(),
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+        }
+         else
+         {
+             $this->error('非法访问...');
+         }
+    }
+
+    /**
+     * 通用化修改状态
+     */
+    public function changeStatus()
+    {
+        $request=Request::instance();
+        if($request->isAjax())
+        {
+            $data=$request->param();
+            $vailate=new IdMustPositive();
+            if(!$vailate->check($data))
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>$vailate->getError(),
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+            $controName=empty($this->controName)?$request->controller():$this->controName;
+            $obj=model($controName)
+                ->where('id','=',$data['id'])
+                ->where('status','neq',config('admin.status_delete'))
+                ->find();
+            if(empty($obj))
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>'该记录不存在',
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+            $obj->status=empty($data['status'])?0:$data['status'];
+            try{
+                if(($obj->save())!==false)
+                {
+                    $result=[
+                        'code'=>400,
+                        'msg'=>'状态修改成功',
+                        'errorCode'=>1,
+                        'jump_url'=>$_SERVER['HTTP_REFERER'],
+                    ];
+                    return json($result);
+                }
+                throw new Exception('状态修改失败...');
+            }catch (\Exception $e)
+            {
+                $result=[
+                    'code'=>404,
+                    'msg'=>$e->getMessage(),
+                    'errorCode'=>0
+                ];
+                return json($result);
+            }
+        }
+        else
+        {
+            $this->error('非法访问...');
+        }
+    }
+}
