@@ -74,7 +74,12 @@ git clone git@github.com:<你的用户名>/tp5-newsapp.git
 
 >  将app/src/main/java/com.wiggins.teaching/utils/AESHelper 里的password 修改为与服务端一致的AES秘钥
 
+## Nginx配置
+
+这个需求应该不大，就不写了.
+
 ## 测试账号与密码
+
 以上都完成后
 后台登录账号密码
 
