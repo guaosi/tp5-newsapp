@@ -99,4 +99,4 @@ git clone git@github.com:<你的用户名>/tp5-newsapp.git
 > admin  a123654
 
 后台地址:
-> http://newsapp.guaosi.com/admin/login/index.html
+> http://你的网址/admin/login/index.html
